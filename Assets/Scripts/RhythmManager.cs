@@ -11,7 +11,7 @@ public class RhythmManager : MonoBehaviour {
     }
 
     public float GetTime() {
-        return audioSource.time;
+        return audioSource.time; 
     }
 
     public float GetClosestBeatTime(float time) {

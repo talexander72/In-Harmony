@@ -8,12 +8,12 @@ public class Asteroid : MonoBehaviour
     private Rigidbody2D _rigidbody;
     
     [SerializeField] private Sprite[] sprites;
-    
-    public float size = 1.0f;
-    public float minSize = 0.5f;
-    public float maxSize = 1.5f;
-    public float speed = 50.0f;
-    public float maxLifetime = 30.0f;
+    [SerializeField] public float size = 1.0f;
+    [SerializeField] public float minSize = 0.5f;
+    [SerializeField] public float maxSize = 1.5f;
+    [SerializeField] private float speed = 50.0f;
+    [SerializeField] private float maxLifetime = 30.0f;
+    [SerializeField] private float health = 30.0f;
 
 
     private void Awake()
