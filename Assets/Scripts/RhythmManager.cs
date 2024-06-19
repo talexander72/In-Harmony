@@ -28,4 +28,25 @@ public class RhythmManager : MonoBehaviour {
 
         return closestBeat;
     }
+
+    public float CalculateDamageMultiplier(float timingDifference)
+    {
+        if (timingDifference < Player.perfectTimingWindow) {
+            return 3.0f; // perfect hit
+        } else if (timingDifference < Player.perfectTimingWindow * 2) {
+            return 1.0f; // good hit
+        } else {
+            return 0.5f; // regular hit
+        }
+    }
+
+
+    public float AdjustDamage(float initialDamage)
+    {
+        float attackTime = GetTime();
+        float closestBeat = GetClosestBeatTime(attackTime);
+        float timingDifference = Mathf.Abs(attackTime - closestBeat);
+        float damageMultiplier = CalculateDamageMultiplier(timingDifference);
+        return initialDamage * damageMultiplier;
+    }
 }

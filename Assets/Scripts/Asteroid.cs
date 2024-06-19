@@ -40,7 +40,7 @@ public class Asteroid : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Bullet")) {
+        if (collision.gameObject.CompareTag("Bullet") || collision.gameObject.CompareTag("Pulse")) {
             if ((this.size * 0.5f) >= this.minSize) {
                 CreateSplit();
                 CreateSplit();

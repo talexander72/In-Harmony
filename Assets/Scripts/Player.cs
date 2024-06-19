@@ -10,17 +10,12 @@ public class Player : MonoBehaviour
     [SerializeField] private float boostAcceleration = 1000f;
     [SerializeField] private float shipMaxVelocity = 20f;
     [SerializeField] private float shipRotationSpeed = 360f;
-    [SerializeField] private float bulletSpeed = 8f;
-    [SerializeField] private float pulseExpansionRate = 8f;
-    [SerializeField] private float perfectTimingWindow = 0.1f;
-
+    [SerializeField] public static float perfectTimingWindow = 0.1f;
 
     [Header("Object references")]
-    [SerializeField] private Transform bulletSpawn;
-    [SerializeField] private Rigidbody2D bulletPrefab;
-    [SerializeField] private GameObject ringPrefab;
+    [SerializeField] private BulletManager bulletManager;
+    [SerializeField] private PulseManager pulseManager;
     [SerializeField] private RhythmManager rhythmManager;
-
 
     private Rigidbody2D shipRigidbody;
     public bool isAlive = true;
@@ -36,10 +31,8 @@ public class Player : MonoBehaviour
         shipRigidbody = GetComponent<Rigidbody2D>();
     }
 
-
     private void Update()
     {
- 
         if (isAlive) {
             HandleShipAcceleration();
             HandleShipBoost();
@@ -48,7 +41,6 @@ public class Player : MonoBehaviour
             HandlePulse();
         }
     }
-
 
     private void FixedUpdate()
     {
@@ -63,14 +55,12 @@ public class Player : MonoBehaviour
         }
     }
 
-
     private void HandleShipAcceleration()
     {
         isAccelerating = Input.GetKey("w");
         isDecelerating = Input.GetKey("s");
         isBoosting = Input.GetKey("f");
     }
-
 
     private void HandleShipBoost()
     {
@@ -79,7 +69,6 @@ public class Player : MonoBehaviour
             shipRigidbody.velocity = Vector2.ClampMagnitude(shipRigidbody.velocity, shipMaxVelocity);
         }
     }
-
 
     private void HandleShipRotation()
     {
@@ -91,68 +80,30 @@ public class Player : MonoBehaviour
         }
     }
 
-
     private void HandleShooting()
     {
         if (Input.GetKey(KeyCode.Space) && !isShooting) {
             isShooting = true; // one input = one attack
-            
-            // initialize rhythm tracking and damage multiplier variables:
-            float attackTime = rhythmManager.GetTime();
-            float closestBeat = rhythmManager.GetClosestBeatTime(attackTime);
-            float timingDifference = Mathf.Abs(attackTime - closestBeat);
-            float damageMultiplier = CalculateDamageMultiplier(timingDifference);
-            Debug.Log("Shooting triggered with damage multiplier: " + damageMultiplier);
-
-            Rigidbody2D bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
-            
-            // directly add ships velocity to bullet initial velocity:
-            bullet.velocity = shipRigidbody.velocity;
-            bullet.AddForce(bulletSpeed * transform.up, ForceMode2D.Impulse);
-            bullet.GetComponent<Bullet>().SetDamageMultiplier(damageMultiplier);
+            bulletManager.TriggerBullet(transform.position);
         }
         else if (!Input.GetKey(KeyCode.Space)) {
             isShooting = false;
         }
     }
 
+//    private void HandleMinigun()
+//   {
+//        if (Input.GetKey(KeyCode.Space)) {
+//           bulletManager.TriggerBullet(transform.position);
+//        }
+//    }
 
     private void HandlePulse()
     {
         if (Input.GetKeyDown(KeyCode.R)) {
-            GameObject ring = Instantiate(ringPrefab, transform.position, Quaternion.identity);
-            StartCoroutine(ExpandRing(ring));
-        }
+            pulseManager.TriggerPulse(transform.position);
+        }  
     }
-
-
-    public IEnumerator ExpandRing(GameObject ring)
-    {
-        float startTime = Time.time;
-        float duration = 5f;
-
-        while (Time.time < startTime + duration) {
-            float elapsed = Time.time - startTime;
-            ring.transform.localScale = Vector3.one * (1 + elapsed * pulseExpansionRate);
-
-            yield return null;
-        }
-
-        Destroy(ring);
-    }
-
-
-    private float CalculateDamageMultiplier(float timingDifference)
-    {
-        if (timingDifference < perfectTimingWindow) {
-            return 2.0f; // perfect hit
-        } else if (timingDifference < perfectTimingWindow * 2) {
-            return 1.5f; // good hit
-        } else {
-            return 1.0f; // regular hit
-        }
-    }
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

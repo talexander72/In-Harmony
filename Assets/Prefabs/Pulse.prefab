@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 3747173027383226002}
   - component: {fileID: 8374370900216387318}
   - component: {fileID: 8660477448567146762}
+  - component: {fileID: 5896797093923148403}
   m_Layer: 9
   m_Name: Pulse
-  m_TagString: Bullet
+  m_TagString: Pulse
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -185,3 +186,20 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortAtRoot: 0
+--- !u!114 &5896797093923148403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2243025377952767501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50d3027d6a9ce7445acf3a851c7b6757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pulsePrefab: {fileID: 2243025377952767501}
+  rhythmManager: {fileID: 0}
+  pulseLifetime: 3
+  pulseDamage: 15
+  pulseExpansionRate: 8
