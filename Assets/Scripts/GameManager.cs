@@ -10,11 +10,12 @@ public class GameManager : MonoBehaviour
     public int lives = 3;
     public float respawnInvulnerabilityTime = 3.0f;
     public int score = 0;
+    private bool gameOver = false;
 
     public void AsteroidDestroyed(Asteroid asteroid)
     {
-        this.explosion.transform.position = asteroid.transform.position;
-        this.explosion.Play();
+        explosion.transform.position = asteroid.transform.position;
+        explosion.Play();
 
         if (asteroid.size < 0.75f) {
             score += 100;
@@ -27,37 +28,39 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDied()
     {
-        this.explosion.transform.position = this.player.transform.position;
-        this.explosion.Play();
+        explosion.transform.position = player.transform.position;
+        explosion.Play();
 
-        this.lives--;
+        lives--;
 
-        if (this.lives <= 0) {
+        if (lives <= 0) {
             GameOver();
         } else {
-            Invoke(nameof(Respawn), this.respawnTime);
+            Invoke(nameof(Respawn), respawnTime);
         } 
     }
 
     private void Respawn()
     {
-        this.player.transform.position = Vector3.zero;
-        this.player.gameObject.layer = LayerMask.NameToLayer("Ignore Collisions");
-        this.player.isAlive = true;
+        player.transform.position = Vector3.zero;
+        player.gameObject.layer = LayerMask.NameToLayer("Ignore Collisions");
+        player.isAlive = true;
         
         Invoke(nameof(TurnOnCollisions), respawnInvulnerabilityTime);
     }
 
     private void TurnOnCollisions()
     {
-        this.player.gameObject.layer = LayerMask.NameToLayer("Player");
+        player.gameObject.layer = LayerMask.NameToLayer("Player");
     }
 
     private void GameOver()
     {
-        this.lives = 3;
-        this.score = 0;
-        
-        Invoke(nameof(Respawn), this.respawnTime);
+        gameOver = true;
+        lives = 3;
+        score = 0;
+
+        FindObjectOfType<AsteroidSpawner>().StopSpawning();
+        Invoke(nameof(Respawn), respawnTime);
     }
 }

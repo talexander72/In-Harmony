@@ -9,6 +9,7 @@ public class AsteroidSpawner : MonoBehaviour
     public float spawnRate = 2.0f;
     public float spawnDistance = 15.0f;
     public int spawnAmount = 1;
+    private bool isSpawning = true;
 
     private void Start()
     {
@@ -38,5 +39,11 @@ public class AsteroidSpawner : MonoBehaviour
             Vector2 trajectory = rotation * -spawnDirection;
             asteroid.SetTrajectory(trajectory);
         }
+    }
+
+    public void StopSpawning()
+    {
+        isSpawning = false;
+        CancelInvoke(nameof(Spawn));
     }
 }

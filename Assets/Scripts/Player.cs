@@ -34,9 +34,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         if (isAlive) {
-            HandleShipAcceleration();
-            HandleShipBoost();
-            HandleShipRotation();
+            HandleInput();
             HandleShooting();
             HandlePulse();
         }
@@ -44,40 +42,38 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isAlive && isAccelerating) {
-            // Increase velocity to a maximum
-            shipRigidbody.AddForce(shipAcceleration * transform.up);
-            shipRigidbody.velocity = Vector2.ClampMagnitude(shipRigidbody.velocity, shipMaxVelocity);
-        }
-        else if  (isAlive && isDecelerating) {
-            shipRigidbody.AddForce(-shipAcceleration * transform.up);
-            shipRigidbody.velocity = Vector2.ClampMagnitude(shipRigidbody.velocity, shipMaxVelocity);
+        if (isAlive) {
+            HandleMovement();
         }
     }
-
-    private void HandleShipAcceleration()
+    
+    private void HandleInput()
     {
         isAccelerating = Input.GetKey("w");
         isDecelerating = Input.GetKey("s");
         isBoosting = Input.GetKey("f");
-    }
 
-    private void HandleShipBoost()
-    {
-        if (isAlive && isBoosting) {
-            shipRigidbody.AddForce(boostAcceleration * transform.up, ForceMode2D.Impulse);
-            shipRigidbody.velocity = Vector2.ClampMagnitude(shipRigidbody.velocity, shipMaxVelocity);
-        }
-    }
-
-    private void HandleShipRotation()
-    {
         if (Input.GetKey("a")) {
-            transform.Rotate(shipRotationSpeed * Time.deltaTime * transform.forward);
+            transform.Rotate(shipRotationSpeed * Time.deltaTime * Vector3.forward);
         }
         else if (Input.GetKey("d")) {
-            transform.Rotate(-shipRotationSpeed * Time.deltaTime * transform.forward);
+            transform.Rotate(-shipRotationSpeed * Time.deltaTime * Vector3.forward);
         }
+    }
+
+    private void HandleMovement()
+    {
+        if (isAccelerating) {
+            shipRigidbody.AddForce(shipAcceleration * transform.up);
+        } else if (isDecelerating) {
+            shipRigidbody.AddForce(-shipAcceleration * transform.up);
+        }
+
+        if (isBoosting) {
+            shipRigidbody.AddForce(boostAcceleration * transform.up, ForceMode2D.Impulse);
+        }
+
+        shipRigidbody.velocity = Vector2.ClampMagnitude(shipRigidbody.velocity, shipMaxVelocity);
     }
 
     private void HandleShooting()
