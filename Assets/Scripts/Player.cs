@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
     private bool isDecelerating = false;
     private bool isBoosting = false;
     private bool isShooting = false;
+    private float accelerationInput = 0;
+    private Vector2 rotationInput = Vector2.zero;
 
 
     private void Start()
@@ -34,7 +36,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         if (isAlive) {
-            HandleInput();
+            //HandleKeyboardInput();
             HandleShooting();
             HandlePulse();
         }
@@ -43,41 +45,68 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         if (isAlive) {
-            HandleMovement();
+            //HandleKeyboardMovement();
+            HandleTouchMovement();
         }
     }
+
+
+    // keyboard inputs
+    //private void HandleKeyboardInput()
+    //{
+    //    isAccelerating = Input.GetKey("w");
+    //    isDecelerating = Input.GetKey("s");
+    //    isBoosting = Input.GetKey("f");
+
+    //    if (Input.GetKey("a")) {
+    //        transform.Rotate(shipRotationSpeed * Time.deltaTime * Vector3.forward);
+    //    }
+    //    else if (Input.GetKey("d")) {
+    //        transform.Rotate(-shipRotationSpeed * Time.deltaTime * Vector3.forward);
+    //    }
+    //}
+
+    //private void HandleKeyboardMovement()
+    //{
+    //    if (isAccelerating) {
+    //        shipRigidbody.AddForce(shipAcceleration * transform.up);
+    //    } else if (isDecelerating) {
+    //        shipRigidbody.AddForce(-shipAcceleration * transform.up);
+    //    }
+
+    //    if (isBoosting) {
+    //        shipRigidbody.AddForce(boostAcceleration * transform.up, ForceMode2D.Impulse);
+    //    }
+
+    //    shipRigidbody.velocity = Vector2.ClampMagnitude(shipRigidbody.velocity, shipMaxVelocity);
+    //}
     
-    private void HandleInput()
-    {
-        isAccelerating = Input.GetKey("w");
-        isDecelerating = Input.GetKey("s");
-        isBoosting = Input.GetKey("f");
 
-        if (Input.GetKey("a")) {
-            transform.Rotate(shipRotationSpeed * Time.deltaTime * Vector3.forward);
-        }
-        else if (Input.GetKey("d")) {
-            transform.Rotate(-shipRotationSpeed * Time.deltaTime * Vector3.forward);
-        }
+    // joystick inputs
+    public void SetAcceleration(float value)
+    {
+        accelerationInput = value;
     }
 
-    private void HandleMovement()
+    public void SetRotation(Vector2 value)
     {
-        if (isAccelerating) {
-            shipRigidbody.AddForce(shipAcceleration * transform.up);
-        } else if (isDecelerating) {
-            shipRigidbody.AddForce(-shipAcceleration * transform.up);
-        }
+        rotationInput = value;
+    }
 
-        if (isBoosting) {
-            shipRigidbody.AddForce(boostAcceleration * transform.up, ForceMode2D.Impulse);
-        }
-
+    private void HandleTouchMovement()
+    {
+        // Apply forward force based on acceleration input
+        shipRigidbody.AddForce(accelerationInput * shipAcceleration * transform.up);
         shipRigidbody.velocity = Vector2.ClampMagnitude(shipRigidbody.velocity, shipMaxVelocity);
+
+        // Rotate based on the rotation input
+        float angle = Mathf.Atan2(rotationInput.y, rotationInput.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
     private void HandleShooting()
     {
+        // keyboard control:
         if (Input.GetKey(KeyCode.Space) && !isShooting) {
             isShooting = true; // one input = one attack
             bulletManager.TriggerBullet(transform.position);
@@ -85,20 +114,20 @@ public class Player : MonoBehaviour
         else if (!Input.GetKey(KeyCode.Space)) {
             isShooting = false;
         }
-    }
 
-//    private void HandleMinigun()
-//   {
-//        if (Input.GetKey(KeyCode.Space)) {
-//           bulletManager.TriggerBullet(transform.position);
-//        }
-//    }
+        // touchscreen control:
+
+    }
 
     private void HandlePulse()
     {
+        // keyboard control:
         if (Input.GetKeyDown(KeyCode.R)) {
             pulseManager.TriggerPulse(transform.position);
         }  
+
+        // touchscreen control:
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
