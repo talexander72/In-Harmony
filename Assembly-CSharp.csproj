@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\BulletManager.cs" />
     <Compile Include="Assets\Scripts\PulseManager.cs" />
+    <Compile Include="Assets\Scripts\SwipeDetector.cs" />
     <Compile Include="Assets\Scripts\AsteroidSpawner.cs" />
   </ItemGroup>
   <ItemGroup>

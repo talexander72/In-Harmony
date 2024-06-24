@@ -7,8 +7,10 @@ public class WheelControl : MonoBehaviour, IDragHandler, IEndDragHandler
     [SerializeField] private UnityEngine.UI.Image wheelImage;
     [SerializeField] private UnityEngine.UI.Image handleImage;
     [SerializeField] private Player player;
+    
     private Vector2 centerPoint;
     private float wheelRadius;
+    private Vector2 startDragPosition;
 
     private void Start()
     {
@@ -16,18 +18,19 @@ public class WheelControl : MonoBehaviour, IDragHandler, IEndDragHandler
         wheelRadius = wheelImage.rectTransform.sizeDelta.x / 2;
     }
 
-
     public void OnDrag(PointerEventData eventData)
     {
         Vector2 direction = eventData.position - centerPoint;
-        if (direction.magnitude > wheelRadius) {
-            direction = direction.normalized * wheelRadius;
-        }
+        float distance = Mathf.Clamp(direction.magnitude, 0, wheelRadius);
 
-        handleImage.rectTransform.position = centerPoint + direction;
-        float distance = direction.magnitude / wheelRadius;
-        player.SetAcceleration(distance);
-        player.SetRotation(direction.normalized);
+        Vector2 clampedPosition = centerPoint + direction.normalized * distance;
+        handleImage.rectTransform.position = clampedPosition;
+
+        Vector2 normalizedDirection = direction.normalized;
+        float acceleration = distance / wheelRadius;
+
+        player.SetRotation(normalizedDirection);
+        player.SetAcceleration(acceleration);
     }
 
     public void OnEndDrag(PointerEventData eventData)
