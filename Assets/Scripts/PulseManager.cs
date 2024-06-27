@@ -12,7 +12,7 @@ public class PulseManager: MonoBehaviour
 
     [SerializeField] public float initialDamage = 15.0f;
     [SerializeField] private float initialExpansionRate = 8.0f;
-    [SerializeField] private float initialLifetime = 3.0f;
+    [SerializeField] private float initialLifetime = 2.0f;
 
     [SerializeField] private Color lowDamageColor = Color.white;
     [SerializeField] private Color mediumDamageColor = Color.yellow;

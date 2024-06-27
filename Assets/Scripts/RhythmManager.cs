@@ -89,6 +89,6 @@ public class RhythmManager : MonoBehaviour
 
 
     public float AdjustLifetime(float initialLifetime, float multiplier)
-        {return initialLifetime * multiplier;}
+        {return initialLifetime * (multiplier/2);}
 
 }

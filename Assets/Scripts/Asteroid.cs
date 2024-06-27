@@ -52,24 +52,7 @@ public class Asteroid : MonoBehaviour
 
     private void DestroyAsteroid()
     {
-        if ((size * 0.5f) >= minSize) 
-        {
-            CreateSplit();
-            CreateSplit();
-        }
-
         FindObjectOfType<GameManager>().AsteroidDestroyed(this);
         Destroy(gameObject);
-    }
-
-
-    private void CreateSplit()
-    {
-        Vector2 position = transform.position;
-        position += Random.insideUnitCircle * 0.5f;
-
-        Asteroid half = Instantiate(this, position, transform.rotation);
-        half.size = size * 0.5f;
-        half.SetTrajectory(Random.insideUnitCircle.normalized);
     }
 }
