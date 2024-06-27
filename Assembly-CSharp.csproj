@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\WheelControl.cs" />
     <Compile Include="Assets\Scripts\RhythmManager.cs" />
     <Compile Include="Assets\Scripts\Wrap.cs" />
+    <Compile Include="Assets\Scripts\Pulse.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\BulletManager.cs" />

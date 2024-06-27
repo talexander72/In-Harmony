@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using  UnityEngine;
      
 
-     
 public class Player : MonoBehaviour
 {
     [Header("Ship parameters")]
@@ -34,7 +33,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (isAlive) {
+        if (isAlive) { 
             HandleShooting();
         }
     }

@@ -2,7 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RhythmManager : MonoBehaviour {
+public class RhythmManager : MonoBehaviour 
+{
+    [SerializeField] public float lowMultiplier = 0.5f;
+    [SerializeField] public float mediumMultiplier = 1.0f;
+    [SerializeField] public float highMultiplier = 3.0f;
+
     public AudioSource audioSource;
     public float[] beatTimes; // Predefined beat times in seconds
 
@@ -32,11 +37,11 @@ public class RhythmManager : MonoBehaviour {
     public float CalculateDamageMultiplier(float timingDifference)
     {
         if (timingDifference < Player.perfectTimingWindow) {
-            return 3.0f; // perfect hit
+            return highMultiplier; // perfect hit
         } else if (timingDifference < Player.perfectTimingWindow * 2) {
-            return 1.0f; // good hit
+            return mediumMultiplier; // good hit
         } else {
-            return 0.5f; // regular hit
+            return lowMultiplier; // regular hit
         }
     }
 
