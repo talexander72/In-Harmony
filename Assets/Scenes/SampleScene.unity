@@ -657,8 +657,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7974f97db7953614eaec255058137adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipAcceleration: 10
-  shipMaxVelocity: 5
+  shipAcceleration: 20
+  shipMaxVelocity: 20
   bulletManager: {fileID: 1395370055}
   pulseManager: {fileID: 1834983159}
   rhythmManager: {fileID: 809891767}
@@ -856,28 +856,8 @@ MonoBehaviour:
   highMultiplier: 3
   perfectTimingWindow: 0.1
   audioSource: {fileID: 645772887}
-  beatTimes:
-  - 0
-  - 0.5
-  - 1
-  - 1.5
-  - 2
-  - 2.5
-  - 3
-  - 3.5
-  - 4
-  - 4.5
-  - 5
-  - 5.5
-  - 6
-  - 6.5
-  - 7
-  - 7.5
-  - 8
-  - 8.5
-  - 9
-  - 9.5
-  - 10
+  sensitivity: 2
+  beatTimes: []
 --- !u!1 &927769620
 GameObject:
   m_ObjectHideFlags: 0

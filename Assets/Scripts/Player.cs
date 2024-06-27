@@ -6,7 +6,7 @@ using  UnityEngine;
 public class Player : MonoBehaviour
 {
     [Header("Ship parameters")]
-    [SerializeField] private float shipAcceleration = 10f;
+    [SerializeField] private float shipAcceleration = 20f;
     //[SerializeField] private float boostAcceleration = 1000f;
     [SerializeField] private float shipMaxVelocity = 20f;
     //[SerializeField] private float shipRotationSpeed = 360f;

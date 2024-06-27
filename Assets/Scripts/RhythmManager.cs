@@ -1,53 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
 public class RhythmManager : MonoBehaviour 
 {
-    [SerializeField] public float lowMultiplier = 0.5f;
-    [SerializeField] public float mediumMultiplier = 1.0f;
-    [SerializeField] public float highMultiplier = 3.0f;
-    [SerializeField] public float perfectTimingWindow = 0.1f;
-
     public AudioSource audioSource;
-    public float[] beatTimes; // Predefined beat times in seconds
-
+    
+    // damage multiplier variables
+    public float lowMultiplier = 0.5f;
+    public float mediumMultiplier = 1.0f;
+    public float highMultiplier = 3.0f;
+    public float perfectTimingWindow = 0.1f;
+    
+    // beat onset detection variables
+    public float sensitivity = 2.0f;
+    private float[] samples = new float[1024];
+    private float[] spectrum = new float[1024];
+    private float averageVolume = 0.0f;
+    private float lastAverageVolume = 0.0f;
+    public float currentBeat = 0.0f;
+    
 
     private void Start() {
         audioSource.Play();
     }
+    
 
+    private void Update()
+    {
+        // get audio data
+        audioSource.GetOutputData(samples, 0);
 
-    public float GetTime() {
+        // compute average volume
+        float sum = 0.0f;
+        for (int i = 0; i < samples.Length; i++)
+            {sum += samples[i] * samples[i];}
+        averageVolume = Mathf.Sqrt(sum / samples.Length);
+
+        // detect beat
+        if (averageVolume > lastAverageVolume * sensitivity)
+            {OnBeatDetected();}
+
+        lastAverageVolume = averageVolume;
+    }
+    
+
+    private float GetTime() {
         return audioSource.time; 
     }
 
 
-    public float GetClosestBeatTime(float time) {
-        float closestBeat = beatTimes[0];
-        float minDifference = Mathf.Abs(time - closestBeat);
-
-        foreach (float beat in beatTimes) {
-            float difference = Mathf.Abs(time - beat);
-            
-            if (difference < minDifference) 
-            {
-                closestBeat = beat;
-                minDifference = difference;
-            }
-        }
-
-        return closestBeat;
+    private void OnBeatDetected()
+    {
+        currentBeat = GetTime();
     }
-
+    
 
     public float CalculateDamageMultiplier(float timingDifference)
     {
         if (timingDifference < perfectTimingWindow) 
             {return highMultiplier;} 
+        
         else if (timingDifference < perfectTimingWindow * 2)
             {return mediumMultiplier;}
+        
         else 
             {return lowMultiplier;}
     }
@@ -56,8 +74,7 @@ public class RhythmManager : MonoBehaviour
     public float MeasureInputs()
     {
         float attackTime = GetTime();
-        float closestBeat = GetClosestBeatTime(attackTime);
-        float timingDifference = Mathf.Abs(attackTime - closestBeat);
+        float timingDifference = Mathf.Abs(attackTime - currentBeat);
         
         return CalculateDamageMultiplier(timingDifference);
     }
