@@ -11,11 +11,13 @@ public class SwipeDetector : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private bool isDragging = false;
     private const float swipeThreshold = 50f; // Adjust the threshold as needed
 
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         startDragPosition = eventData.position;
         isDragging = true;
     }
+
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -30,8 +32,8 @@ public class SwipeDetector : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
+
     public void OnEndDrag(PointerEventData eventData)
-    {
-        isDragging = false;
-    }
+        {isDragging = false;}
+        
 }

@@ -201,9 +201,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pulsePrefab: {fileID: 2243025377952767501}
   rhythmManager: {fileID: 0}
-  pulseLifetime: 3
   initialDamage: 15
-  pulseExpansionRate: 14.05
+  initialExpansionRate: 8
+  initialLifetime: 3
+  lowDamageColor: {r: 1, g: 0.968781, b: 0, a: 0.6313726}
+  mediumDamageColor: {r: 1, g: 0.4948084, b: 0.015686274, a: 0.7294118}
+  highDamageColor: {r: 1, g: 0, b: 0.09262037, a: 1}
 --- !u!114 &6650677277088918228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,3 +220,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   adjustedDamage: 0
+  adjustedExpansionRate: 0
+  adjustedLifetime: 0

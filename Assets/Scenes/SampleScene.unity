@@ -658,9 +658,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipAcceleration: 10
-  boostAcceleration: 50
   shipMaxVelocity: 5
-  shipRotationSpeed: 360
   bulletManager: {fileID: 1395370055}
   pulseManager: {fileID: 1834983159}
   rhythmManager: {fileID: 809891767}
@@ -835,7 +833,7 @@ Transform:
   m_GameObject: {fileID: 809891764}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.66233724, y: -0.01, z: 0.11194768}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -853,6 +851,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6630d14bf5bb3d468b59b1538622e69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lowMultiplier: 0.5
+  mediumMultiplier: 1
+  highMultiplier: 3
+  perfectTimingWindow: 0.1
   audioSource: {fileID: 645772887}
   beatTimes:
   - 0
@@ -1001,7 +1003,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4904369065949152516, guid: fd9c0f8268c42844b83c43fb7fe74ac2, type: 3}
   rhythmManager: {fileID: 809891767}
   bulletLifetime: 1
-  bulletDamage: 15
+  initialDamage: 15
   bulletSpeed: 50
 --- !u!1 &1460968374
 GameObject:
@@ -5922,9 +5924,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pulsePrefab: {fileID: 2243025377952767501, guid: 091c427037db403469d28fe398743a45, type: 3}
   rhythmManager: {fileID: 809891767}
-  pulseLifetime: 3
-  pulseDamage: 15
-  pulseExpansionRate: 8
+  initialDamage: 15
+  initialExpansionRate: 8
+  initialLifetime: 3
+  lowDamageColor: {r: 1, g: 1, b: 1, a: 1}
+  mediumDamageColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  highDamageColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!4 &1834983160
 Transform:
   m_ObjectHideFlags: 0
@@ -5966,7 +5971,7 @@ Transform:
   m_GameObject: {fileID: 1866955668}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7360715, y: 0.27334672, z: 0.029436497}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

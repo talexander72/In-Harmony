@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
 public class WheelControl : MonoBehaviour, IDragHandler, IEndDragHandler
 {
     [SerializeField] private UnityEngine.UI.Image wheelImage;
@@ -12,11 +13,13 @@ public class WheelControl : MonoBehaviour, IDragHandler, IEndDragHandler
     private float wheelRadius;
     private Vector2 startDragPosition;
 
+
     private void Start()
     {
         centerPoint = wheelImage.rectTransform.position;
         wheelRadius = wheelImage.rectTransform.sizeDelta.x / 2;
     }
+
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -32,6 +35,7 @@ public class WheelControl : MonoBehaviour, IDragHandler, IEndDragHandler
         player.SetRotation(normalizedDirection);
         player.SetAcceleration(acceleration);
     }
+
 
     public void OnEndDrag(PointerEventData eventData)
     {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Wrap : MonoBehaviour
 {
     // Wrap around once off the screen
@@ -13,20 +14,18 @@ public class Wrap : MonoBehaviour
         // If its gone off the viewport, wrap to opposite side
         Vector3 moveAdjustment = Vector3.zero;
         
-        if (viewportPosition.x < 0) {
-            moveAdjustment.x += 1;
-        }
-        else if (viewportPosition.x > 1) {
-            moveAdjustment.x -= 1;
-        }
-        else if (viewportPosition.y < 0) {
-            moveAdjustment.y += 1;
-        }
-        else if (viewportPosition.y > 1) {
-            moveAdjustment.y -= 1;
-        }
-    
+        if (viewportPosition.x < 0) 
+            {moveAdjustment.x += 1;}
 
+        else if (viewportPosition.x > 1) 
+            {moveAdjustment.x -= 1;}
+
+        else if (viewportPosition.y < 0) 
+            {moveAdjustment.y += 1;}
+            
+        else if (viewportPosition.y > 1) 
+            {moveAdjustment.y -= 1;}
+    
         // Convert back into world coordinates before assigning
         transform.position = Camera.main.ViewportToWorldPoint(viewportPosition + moveAdjustment);
     }

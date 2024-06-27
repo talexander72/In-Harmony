@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Asteroid : MonoBehaviour
 {
     private SpriteRenderer _spriteRenderer;
@@ -15,11 +16,13 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private float maxLifetime = 30.0f;
     [SerializeField] private float health = 30.0f;
 
+
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidbody = GetComponent<Rigidbody2D>();
     }
+
 
     private void Start()
     {
@@ -31,22 +34,26 @@ public class Asteroid : MonoBehaviour
         Destroy(gameObject, maxLifetime);
     }
 
+
     public void SetTrajectory(Vector2 direction)
     {
         _rigidbody.AddForce(direction * speed);
     }
 
+
     public void TakeDamage(float damage)
     {
         health -= damage;
-        if (health <= 0) {
-            DestroyAsteroid();
-        }
+        
+        if (health <= 0) 
+            {DestroyAsteroid();}
     }
+
 
     private void DestroyAsteroid()
     {
-        if ((size * 0.5f) >= minSize) {
+        if ((size * 0.5f) >= minSize) 
+        {
             CreateSplit();
             CreateSplit();
         }
@@ -54,6 +61,7 @@ public class Asteroid : MonoBehaviour
         FindObjectOfType<GameManager>().AsteroidDestroyed(this);
         Destroy(gameObject);
     }
+
 
     private void CreateSplit()
     {
